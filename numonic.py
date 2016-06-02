@@ -35,11 +35,9 @@ def word_to_number(word):
 
 
 def get_all_matching_words(number, words):
-    matching_words = []
     for word in words:
         if word_to_number(word) == number:
-            matching_words.append(word.strip())
-    return matching_words
+            yield word.strip()
 
 
 if __name__ == '__main__':
