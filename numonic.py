@@ -29,12 +29,13 @@ def word_to_number(word):
     for letter in word.lower():
         if letter in letter_to_number:
             digits.append(letter_to_number[letter])
-    return ''.join(str(digit) for digit in digits)
+    if not digits:
+        return None
+    return int(''.join(str(digit) for digit in digits))
 
 
 def get_all_matching_words(number, words):
     matching_words = []
-    number = str(number)
     for word in words:
         if word_to_number(word) == number:
             matching_words.append(word.strip())
