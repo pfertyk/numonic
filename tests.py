@@ -1,5 +1,5 @@
 import unittest
-from numonic import word_to_number
+from numonic import word_to_number, get_all_matching_words
 
 
 class NumonicTestCase(unittest.TestCase):
@@ -15,6 +15,16 @@ class NumonicTestCase(unittest.TestCase):
         word = 'bB'
         self.assertEqual(len(word_to_number(word)), 2)
         self.assertEqual(len(set(word_to_number(word))), 1)
+
+    def test_default_mapping(self):
+        word_list = [
+            'hello', 'hakka', 'shirt', 'other', 'ghoul', 'jelly', 'jello',
+            'jellx', 'foobar', 'pumba', 'timon', 'there', 'badly', 'coded'
+        ]
+        self.assertEqual(
+            set(get_all_matching_words(344, word_list)),
+            {'hello', 'hakka', 'jelly', 'jello'}
+        )
 
 
 if __name__ == '__main__':

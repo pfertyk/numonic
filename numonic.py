@@ -32,6 +32,15 @@ def word_to_number(word):
     return ''.join(str(digit) for digit in digits)
 
 
+def get_all_matching_words(number, words):
+    matching_words = []
+    number = str(number)
+    for word in words:
+        if word_to_number(word) == number:
+            matching_words.append(word.strip())
+    return matching_words
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', '--translate', action='store_true')
@@ -39,12 +48,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.translate:
-        number = args.words[0]
+        number = int(args.words[0])
         wordfile = '/usr/share/dict/american-english'
-        with open(wordfile) as file:
-            for word in file:
-                w = word.strip()
-                if w.isalpha() and word_to_number(w) == number:
-                    print(word.strip())
+        with open(wordfile) as word_list:
+            for word in get_all_matching_words(number, word_list):
+                print(word)
     else:
         print(word_to_number(''.join(args.words)))
