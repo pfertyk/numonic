@@ -23,8 +23,6 @@ letter_to_number = {
     'z': 0
 }
 
-wordfile = '/usr/share/dict/american-english'
-
 
 def word_to_number(word):
     digits = []
@@ -42,6 +40,7 @@ if __name__ == '__main__':
 
     if args.translate:
         number = args.words[0]
+        wordfile = '/usr/share/dict/american-english'
         with open(wordfile) as file:
             for word in file:
                 w = word.strip()
