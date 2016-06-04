@@ -40,6 +40,25 @@ def get_all_matching_words(number, words):
             yield word.strip()
 
 
+def get_groups(number, words, min_matches=1):
+    matching_groups = []
+    words = list(words)
+    number = str(number)
+    while number:
+        end = len(number)
+        while True:
+            matching_words = get_all_matching_words(int(number[:end]), words)
+            matching_words = list(matching_words)
+            if len(matching_words) >= min_matches:
+                matching_groups.append(matching_words)
+                number = number[end:]
+                break
+            else:
+                end -= 1
+
+    return matching_groups
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', '--translate', action='store_true')
@@ -49,8 +68,10 @@ if __name__ == '__main__':
     if args.translate:
         number = int(args.words[0])
         wordfile = '/usr/share/dict/american-english'
-        with open(wordfile) as word_list:
-            for word in get_all_matching_words(number, word_list):
-                print(word)
+        with open(wordfile) as words:
+            for group in get_groups(number, words, 3):
+                print('='*10)
+                for word in group:
+                    print(word)
     else:
         print(word_to_number(''.join(args.words)))

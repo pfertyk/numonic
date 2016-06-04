@@ -1,5 +1,5 @@
 import unittest
-from numonic import word_to_number, get_all_matching_words
+from numonic import word_to_number, get_all_matching_words, get_groups
 
 
 class NumonicTestCase(unittest.TestCase):
@@ -17,14 +17,25 @@ class NumonicTestCase(unittest.TestCase):
         self.assertEqual(len(set(number_str)), 1)
 
     def test_default_mapping(self):
-        word_list = [
+        words = [
             'hello', 'hakka', 'shirt', 'other', 'ghoul', 'jelly', 'jello',
             'jellx', 'foobar', 'pumba', 'timon', 'there', 'badly', 'coded'
         ]
         self.assertEqual(
-            set(get_all_matching_words(344, word_list)),
+            set(get_all_matching_words(344, words)),
             {'hello', 'hakka', 'jelly', 'jello'}
         )
+
+    def test_split_into_groups(self):
+        words = [
+            'hello', 'world', 'foobar', 'yep', 'zip', 'queue', 'pay', 'lion',
+            'keen', 'Alan', 'badge', 'bodega'
+        ]
+        groups = get_groups(123456, words)
+        self.assertEqual(len(groups), 3)
+        self.assertEqual(set(groups[0]), {'badge', 'bodega'})
+        self.assertEqual(set(groups[1]), {'Alan', 'keen', 'lion'})
+        self.assertEqual(set(groups[2]), {'yep', 'queue', 'zip', 'pay'})
 
 
 if __name__ == '__main__':
