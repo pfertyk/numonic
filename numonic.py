@@ -59,14 +59,16 @@ def get_groups(number, words, min_matches=1):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', '--translate', action='store_true')
+    parser.add_argument('-m', '--min-matches', type=int, default=1)
     parser.add_argument('words', metavar='word', type=str, nargs='+')
     args = parser.parse_args()
 
     if args.translate:
         number = ''.join(args.words)
+        min_matches = args.min_matches
         wordfile = '/usr/share/dict/american-english'
         with open(wordfile) as words:
-            for group in get_groups(number, words, 3):
+            for group in get_groups(number, words, min_matches):
                 print('='*10)
                 for word in group:
                     print(word)
