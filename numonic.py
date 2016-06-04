@@ -29,9 +29,7 @@ def word_to_number(word):
     for letter in word.lower():
         if letter in letter_to_number:
             digits.append(letter_to_number[letter])
-    if not digits:
-        return None
-    return int(''.join(str(digit) for digit in digits))
+    return ''.join(str(digit) for digit in digits)
 
 
 def get_all_matching_words(number, words):
@@ -43,11 +41,10 @@ def get_all_matching_words(number, words):
 def get_groups(number, words, min_matches=1):
     matching_groups = []
     words = list(words)
-    number = str(number)
     while number:
         end = len(number)
         while True:
-            matching_words = get_all_matching_words(int(number[:end]), words)
+            matching_words = get_all_matching_words(number[:end], words)
             matching_words = list(matching_words)
             if len(matching_words) >= min_matches:
                 matching_groups.append(matching_words)
@@ -66,7 +63,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.translate:
-        number = int(args.words[0])
+        number = ''.join(args.words)
         wordfile = '/usr/share/dict/american-english'
         with open(wordfile) as words:
             for group in get_groups(number, words, 3):
