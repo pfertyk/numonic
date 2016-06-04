@@ -1,4 +1,5 @@
 import argparse
+from itertools import zip_longest
 
 letter_to_number = {
     'b': 1,
@@ -56,6 +57,21 @@ def get_groups(number, words, min_matches=1):
     return matching_groups
 
 
+def print_groups(groups):
+    row_parts = ['|']
+    border_parts = ['+']
+    for group in groups:
+        max_word_len = max(len(word) for word in group)
+        row_parts.append(' {{:{}}} |'.format(max_word_len))
+        border_parts.extend(['-'*(max_word_len+2), '+'])
+    row = ''.join(row_parts)
+    border = ''.join(border_parts)
+    print(border)
+    for words in zip_longest(*groups, fillvalue=''):
+        print(row.format(*words))
+    print(border)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', '--translate', action='store_true')
@@ -68,9 +84,7 @@ if __name__ == '__main__':
         min_matches = args.min_matches
         wordfile = '/usr/share/dict/american-english'
         with open(wordfile) as words:
-            for group in get_groups(number, words, min_matches):
-                print('='*10)
-                for word in group:
-                    print(word)
+            groups = get_groups(number, words, min_matches)
+            print_groups(groups)
     else:
         print(word_to_number(''.join(args.words)))
