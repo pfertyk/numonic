@@ -74,17 +74,17 @@ def print_groups(groups):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-t', '--translate', action='store_true')
+    parser.add_argument('-d', '--decode', action='store_true')
     parser.add_argument('-m', '--min-matches', type=int, default=1)
     parser.add_argument('words', metavar='word', type=str, nargs='+')
     args = parser.parse_args()
 
-    if args.translate:
+    if args.decode:
+        print(word_to_number(''.join(args.words)))
+    else:
         number = ''.join(args.words)
         min_matches = args.min_matches
         wordfile = '/usr/share/dict/american-english'
         with open(wordfile) as words:
             groups = get_groups(number, words, min_matches)
             print_groups(groups)
-    else:
-        print(word_to_number(''.join(args.words)))
